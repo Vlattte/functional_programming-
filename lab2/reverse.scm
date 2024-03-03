@@ -11,5 +11,3 @@
 )
 
 (format #t "Reverse: ~a\n" (Reverse data))
-
-(format #t "~s\n" (list-ref data 1) )

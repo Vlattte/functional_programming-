@@ -1,48 +1,55 @@
-(define data (list 9 1 3 7 0 6 4 8 5 2))
+(define data (list 1 0 7 2 3 4 8 9 5 6))
 
-(define quicksort
-    (lambda (arr)
-        (let loop ( (arr arr) ) ; цикл распределяющий элементы в классы меньше или больше середины массива
-            (begin
-                (define pivot (car arr))
-                (define low '()) 
-                (define high '())
-                (if (not (null? (cdr arr) ) )          ; если элементов больше одного
-                    (begin                       
-                        (let sort_loop ( (sub_arr arr) )    ; сортируем текущий массив
-                            (begin
-                                (define el (car arr))
-                                (if (null? sub_arr ) 'quit
-                                    (begin 
-                                        (if (> el pivot)            ; если элемент больше pivot  
-                                            (cons high el)   
-                                            (cons low el)
+(define quicksort       
+    (lambda (l)
+        (let sort ((l l))                           
+            (begin 
+                (define pivot 0)        ; опорный элемент
+                (define low '() )       ; меньше опорного элемента
+                (define high '() )      ; больше опорного элемента
+                
+                ; тут делим по массивам low и high 
+                (if (null? (cdr l)) 
+                    (begin
+                        (format #t "EMPTY\n")
+                        l
+                    )  
+                    (begin             
+                        (set! pivot (car l))
+                        (let sort_loop ((l l) (pivot pivot) (low low) (high high))
+                            (if (null? l)       ; если больше нет элементов, то все
+                                (begin 
+                                    (format #t "aaaaaaaa = ~a\n" pivot)
+
+                                    ; если low не пустой (в high всегда хотя бы сам элемент лежит)
+                                    (if (not (null? low) )
+                                        (set! low (sort low))
+                                    )                                    
+                                    (set! high (sort high))
+                                    (cons low high)
+                                )
+                                (begin         
+                                    (format #t "pivot = ~a\n" pivot)               
+                                    (if (> pivot (car l)) 
+                                        (begin 
+                                            (set! low (cons (car l) low ))
+                                            (format #t "low = ~a\n" low)                                             
                                         )
-                                        (sort_loop (cdr sub_arr) )   ; продолжаем сортировку
-                                        (format)
-                                    )                                     
-                                )                                
-                            )
+                                        (begin 
+                                            (set! high (cons (car l) high ) )
+                                            (format #t "\thigh = ~a\n" high)                                 
+                                        )
+                                    )
+                                    (sort_loop (cdr l) pivot low high)             
+                                )   
+                            )          
                         )
                     )
-                    (format #t "end\n")
                 )
-                ;(low (loop low))
-                ;(high (loop high))
-                ;(cons low high)
-            )
+            )                     
         )
     )
 )
 
-;(define sort_loop (lambda (arr)
-;        (begin             
-;            (define pivot (car arr))
-;            (let loop ( (arr arr) )
-;
-;            )
-;        )
-;    )
-;)
-
-(quicksort data)
+; (format #t "~s\n" (list-ref data 1) )
+(format #t "Quicksort: ~a\n" (quicksort data) )
