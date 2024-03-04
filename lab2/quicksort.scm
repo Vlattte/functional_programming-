@@ -1,4 +1,4 @@
-(define data (list 13 0 7 2 -33 4 8 91 5 6))
+(define data (list 1 0 7 2 -33 4 8 91 5 6))
 
 (define concat_lists
     (lambda (l1 l2)
@@ -26,28 +26,19 @@
                 (define high '() )      ; больше опорного элемента
                 
                 ; тут делим по массивам low и high 
-                (if (null? (cdr l)) l ; если в массиве один элемент, не сортируем
-                    (begin             
-                        (set! pivot (car l))
-                        (let sort_loop ((l l) (pivot pivot) (low low) (high high))
-                            (if (null? l)       ; элементы кончились => сортируем под массивы
-                                (begin 
-                                    ; если low не пустой (в high всегда хотя бы сам элемент лежит)
-                                    (if (not (null? low) )
-                                        (set! low (sort low))
-                                    )                                    
-                                    (set! high (sort high))  
-                                    (concat_lists low high) ; объединяем списки
-                                )
-                                (begin               
-                                    (if (> pivot (car l)) 
-                                        (set! low (cons (car l) low ))                                           
-                                        (set! high (cons (car l) high ) )
-                                    )
-                                    (sort_loop (cdr l) pivot low high)             
-                                )   
-                            )          
-                        )
+                (if (null? (cdr l)) l ; если в массиве один элемент, не сортируем          
+                    (let sort_loop ((l l) (pivot (car l)) (low low) (high high))
+                        (if (null? l)       ; элементы кончились => сортируем под массивы
+                            ; если low не пустой (в high всегда хотя бы сам элемент лежит)
+                            (if (not (null? low) )
+                                (concat_lists (sort low) (sort high))
+                                (concat_lists low (sort high))
+                            )                                             
+                            (if (> pivot (car l))
+                                (sort_loop (cdr l) pivot (cons (car l) low ) high)  
+                                (sort_loop (cdr l) pivot low (cons (car l) high ))                                      
+                            )
+                        )          
                     )
                 )
             )                     
