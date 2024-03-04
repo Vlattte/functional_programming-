@@ -31,8 +31,8 @@
                         (if (null? l)       ; элементы кончились => сортируем под массивы
                             ; если low не пустой (в high всегда хотя бы сам элемент лежит)
                             (if (not (null? low) )
-                                (concat_lists (sort low) (sort high))
-                                (concat_lists low (sort high))
+                                (append (sort low) (sort high))
+                                (append low (sort high))
                             )                                             
                             (if (> pivot (car l))
                                 (sort_loop (cdr l) pivot (cons (car l) low ) high)  
@@ -47,4 +47,3 @@
 )
 
 (format #t "Quicksort: ~a\n" (quicksort data) )
-;(format #t "Quicksort: ~a\n" (concat_lists data1 data2))
