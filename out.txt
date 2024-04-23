@@ -1,0 +1,2 @@
+Output to out.txt
+The answer to question about love universe and everything is 42
